@@ -17,7 +17,12 @@ build:
 # the build hook runs using a package manager for the language.
 # More information: https://docs.platform.sh/create-apps/app-reference.html#dependencies
 dependencies:
-    php: !include company/infra/dependencies.php.yaml
+    #php: !include company/infra/dependencies.php.yaml
+  php:
+    composer/composer: '^2'
+    # Install wp cli
+    wp-cli/wp-cli-bundle: "^2.1"
+    psy/psysh: "^0.8.4"
 
 # Hooks allow you to customize your code/environment as the project moves through the build and deploy stages
 # More info:
@@ -41,20 +46,23 @@ relationships:
 # The web key configures the web server running in front of your app.
 # More information: https://docs.platform.sh/create-apps/app-reference.html#web
 web:
-    # Each key in locations is a path on your site with a leading /.
-    # More information: https://docs.platform.sh/create-apps/app-reference.html#locations
-    locations: !include company/infra/web.locations.yaml
+  locations: !include company/infra/web.locations.yaml
 
 # The size of the persistent disk of the application (in MB). Minimum value is 128.
 disk: !include company/infra/disk.yaml
 
 # Mounts define directories that are writable after the build is complete. If set as a local source, disk property is required.
 # More information: https://docs.platform.sh/create-apps/app-reference.html#mounts
-mounts: !include company/infra/mounts.yaml
+#mounts: !include company/infra/mounts.yaml
+mounts:
+  "public/wp-content/uploads":
+    source: local
+    source_path: "uploads"
 
 
 # More information: https://docs.platform.sh/create-apps/app-reference.html#extensions
-runtime: !include company/infra/runtime.extensions.yaml
+runtime:
+  extensions: !include company/infra/runtime.extensions.yaml
 
 ########################################################################################################################
 ##                                                                                                                    ##
