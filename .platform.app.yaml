@@ -17,12 +17,12 @@ build:
 # the build hook runs using a package manager for the language.
 # More information: https://docs.platform.sh/create-apps/app-reference.html#dependencies
 dependencies:
-    #php: !include company/infra/dependencies.php.yaml
-  php:
-    composer/composer: '^2'
-    # Install wp cli
-    wp-cli/wp-cli-bundle: "^2.1"
-    psy/psysh: "^0.8.4"
+    php: !include company/infra/dependencies.php.yaml
+#  php:
+#    composer/composer: '^2'
+#    # Install wp cli
+#    wp-cli/wp-cli-bundle: "^2.1"
+#    psy/psysh: "^0.8.4"
 
 # Hooks allow you to customize your code/environment as the project moves through the build and deploy stages
 # More info:
@@ -53,11 +53,11 @@ disk: !include company/infra/disk.yaml
 
 # Mounts define directories that are writable after the build is complete. If set as a local source, disk property is required.
 # More information: https://docs.platform.sh/create-apps/app-reference.html#mounts
-#mounts: !include company/infra/mounts.yaml
-mounts:
-  "public/wp-content/uploads":
-    source: local
-    source_path: "uploads"
+mounts: !include company/infra/mounts.yaml
+#mounts:
+#  "public/wp-content/uploads":
+#    source: local
+#    source_path: "uploads"
 
 
 # More information: https://docs.platform.sh/create-apps/app-reference.html#extensions
