@@ -34,12 +34,6 @@
       "composer/installers": true
     }
   },
-  "scripts": {
-    "subdirComposer": [
-      "cp wp-config.php wordpress/ && rm -rf wordpress/wp-content/wp-content"
-    ],
-    "post-install-cmd": "@subdirComposer"
-  },
   "require": {
 	"company-name/allsitereqs": "<1.0.0",
 	"wpackagist-plugin/akismet": "^5.1",
