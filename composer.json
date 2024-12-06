@@ -1,38 +1,32 @@
 {
-  "name": "johnpbloch/wordpress",
-  "description": "WordPress is open source software you can use to create a beautiful website, blog, or app.",
-  "keywords": [
-    "wordpress",
-    "blog",
-    "cms"
-  ],
-  "type": "package",
-  "homepage": "https://wordpress.org/",
+  "name": "company-name/individual-site",
+  "description": "individual site composer file",
+  "type": "project",
   "license": "GPL-2.0+",
-  "authors": [
-    {
-      "name": "WordPress Community",
-      "homepage": "https://wordpress.org/about/"
-    }
+
+  "repositories": [
+	{
+	  "type": "path",
+	  "url": "./company"
+	},
+	{
+	  "type": "composer",
+	  "url": "https://wpackagist.org"
+	}
   ],
-  "support": {
-    "issues": "https://core.trac.wordpress.org/",
-    "forum": "https://wordpress.org/support/",
-    "docs": "https://developer.wordpress.org/",
-    "irc": "irc://irc.freenode.net/wordpress",
-    "source": "https://core.trac.wordpress.org/browser"
-  },
-  "require": {
-    "php": ">=5.6.20",
-    "johnpbloch/wordpress-core-installer": "^1.0 || ^2.0",
-    "johnpbloch/wordpress-core": "^6.2.2",
-    "platformsh/config-reader": "^2.4",
-    "wp-cli/wp-cli-bundle": "^2.7",
-    "psy/psysh": "^0.11.18",
-    "wpackagist-plugin/akismet": "^5.1",
-    "wpackagist-theme/twentytwentyone": "^1.8",
-    "wpackagist-theme/twentytwentytwo": "^1.4",
-    "wpackagist-theme/twentytwentythree": "^1.1"
+  "extra": {
+	"wordpress-install-dir": "public/wp",
+	"installer-paths": {
+	  "public/wp-content/plugins/{$name}": [
+		"type:wordpress-plugin"
+	  ],
+	  "public/wp-content/themes/{$name}": [
+		"type:wordpress-theme"
+	  ],
+	  "public/wp-content/mu-plugins/{$name}": [
+		"type:wordpress-muplugin"
+	  ]
+	}
   },
   "config": {
     "allow-plugins": {
@@ -40,29 +34,18 @@
       "composer/installers": true
     }
   },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org"
-    }
-  ],
   "scripts": {
     "subdirComposer": [
       "cp wp-config.php wordpress/ && rm -rf wordpress/wp-content/wp-content"
     ],
     "post-install-cmd": "@subdirComposer"
   },
-  "extra": {
-    "installer-paths": {
-      "wordpress/wp-content/plugins/{$name}": [
-        "type:wordpress-plugin"
-      ],
-      "wordpress/wp-content/themes/{$name}": [
-        "type:wordpress-theme"
-      ],
-      "wordpress/wp-content/mu-plugins/{$name}": [
-        "type:wordpress-muplugin"
-      ]
-    }
+  "require": {
+	"company-name/allsitereqs": "<1.0.0",
+	"wpackagist-plugin/akismet": "^5.1",
+	"wpackagist-plugin/classic-editor":"^1.6.7",
+	"wpackagist-theme/twentytwentytwo": "^1.4",
+	"wpackagist-theme/twentytwentythree": "^1.1",
+	"wpackagist-plugin/wp-cfm":"^1.7.4"
   }
 }

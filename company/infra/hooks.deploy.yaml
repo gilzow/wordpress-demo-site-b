@@ -1,0 +1,25 @@
+###
+# Contains hooks that are fired when an environment is deployed. See https://docs.platform.sh/configuration/app/build.html#deploy-hook
+
+################################
+###          CORE           ###
+###############################
+###
+# Ensures that if an error occurs in one of our hooks it will fail the build
+set -e
+
+################################
+###        WORDPRESS        ###
+###############################
+# Flushes the object cache which might have changed between current production and newly deployed changes
+wp cache flush
+ # Runs the WordPress database update procedure in case core is being updated with the newly deployed changes
+wp core update-db
+ # Runs all cron events that are due now and may have come due during the build+deploy procedure
+wp cron event run --due-now
+
+################################
+###     Project Specific    ###
+###############################
+# Add any additional project specific deploy hooks you need in the environment after this line
+

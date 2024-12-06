@@ -4,8 +4,40 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6093afca4570e4edcacb45318dad2ee8",
+    "content-hash": "6c85c898dc2dca810d6ccf19c7515aa7",
     "packages": [
+        {
+            "name": "company-name/allsitereqs",
+            "version": "0.1.2",
+            "dist": {
+                "type": "path",
+                "url": "./company",
+                "reference": "84a2a18d17a5a54fca793ba7e3551e8c4825b476"
+            },
+            "require": {
+                "johnpbloch/wordpress-core": "^6.2.2",
+                "johnpbloch/wordpress-core-installer": "^1.0 || ^2.0",
+                "php": ">=8.1",
+                "platformsh/config-reader": "^2.4",
+                "psy/psysh": "^0.11.18",
+                "wp-cli/wp-cli-bundle": "^2.7",
+                "wpackagist-theme/twentytwentyone": "^1.8"
+            },
+            "type": "metapackage",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Employee Awesome",
+                    "email": "awesome-employee@company.name"
+                }
+            ],
+            "description": "Company name site composer meta package",
+            "transport-options": {
+                "relative": true
+            }
+        },
         {
             "name": "composer/ca-bundle",
             "version": "1.5.4",
@@ -5161,6 +5193,42 @@
             "homepage": "https://wordpress.org/plugins/akismet/"
         },
         {
+            "name": "wpackagist-plugin/classic-editor",
+            "version": "1.6.7",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/classic-editor/",
+                "reference": "tags/1.6.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/classic-editor.1.6.7.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/classic-editor/"
+        },
+        {
+            "name": "wpackagist-plugin/wp-cfm",
+            "version": "1.7.10",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-cfm/",
+                "reference": "tags/1.7.10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-cfm.1.7.10.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/wp-cfm/"
+        },
+        {
             "name": "wpackagist-theme/twentytwentyone",
             "version": "1.9",
             "source": {
@@ -5218,12 +5286,10 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {
-        "php": ">=5.6.20"
-    },
-    "platform-dev": {},
+    "platform": [],
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
