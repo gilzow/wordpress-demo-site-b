@@ -51,3 +51,6 @@ wordpress/wp-content/uploads
 wordpress/wp-config.php
 
 .cypress/node_modules
+public/wp
+public/wp-content
+!public/wp-content/index.php
