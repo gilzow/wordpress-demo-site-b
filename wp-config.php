@@ -101,7 +101,8 @@ else {
 define( 'WP_HOME', $site_scheme . '://' . $site_host );
 // Do not put a slash "/" at the end.
 // https://codex.wordpress.org/Editing_wp-config.php#WP_SITEURL
-define('WP_SITEURL', WP_HOME . '/wp');
+#define('WP_SITEURL', WP_HOME . '/wp');
+define('WP_SITEURL',WP_HOME);
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/public/wp-content' );
 define( 'WP_CONTENT_URL', WP_HOME . '/wp-content' );
 
