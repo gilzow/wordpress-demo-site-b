@@ -15,7 +15,7 @@ set -e
 # This allows manually-provided and composer-provided plugins to coexist.
 rsync -a plugins/ public/wp-content/plugins/
 # create a symlink to our actual file in the root of mu-plugins
-./scripts/digitalservice/setup-mu-plugins.sh
+bash ./company/infra/scripts/setup-mu-plugins.sh
 
 ################################
 ###     Project Specific    ###
