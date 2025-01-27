@@ -1,12 +1,3 @@
-########################################################################################################################
-##                                                                                                                    ##
-## This github workflow file is part of the Platform.sh process of updating and maintaining our collection of         ##
-## templates. For more information see https://github.com/platformsh-templates/ghrw-templates                         ##
-## and https://github.com/search?q=topic%3Agithub-action+org%3Aplatformsh                                             ##
-##                                                                                                                    ##
-##                                       YOU CAN SAFELY DELETE THIS FILE                                              ##
-##                                                                                                                    ##
-########################################################################################################################
 name: "TestPullRequestEnv"
 run-name: "TestPullRequestEnv"
 on:
@@ -23,14 +14,14 @@ jobs:
   reset-test-state:
     runs-on: ubuntu-latest
     env:
-      PLATFORMSH_CLI_TOKEN: ${{ secrets.TEMPLATES_CLI_TOKEN }}
+      PLATFORMSH_CLI_TOKEN: ${{ secrets.PSH_CLI_TOKEN }}
       PLATFORM_BRANCH: "pr-${{ github.event.pull_request.number }}"
     steps:
       - name: Get Project ID
         id: get-proj-id
         uses: platformsh/gha-retrieve-projectid@main
         with:
-          github_token: ${{ secrets.TEMPLATES_GITHUB_TOKEN }}
+          github_token: ${{ secrets.UPDATE_GITHUB_TOKEN }}
       - name: Sets up the Platformsh CLI
         run: curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
         shell: bash
@@ -38,7 +29,7 @@ jobs:
         id: get-target-url
         uses: platformsh/gha-retrieve-psh-prenv-url@main
         with:
-          github-token: ${{ secrets.TEMPLATES_GITHUB_TOKEN }}
+          github-token: ${{ secrets.UPDATE_GITHUB_TOKEN }}
       - name: reset testing state
         continue-on-error: true
         env:
@@ -46,17 +37,33 @@ jobs:
         run: |
           platform ssh 'wp user delete bobby --yes --quiet'
 
-  # !!!! WARNING !!!! #
-  # If for some reason you decide to change this jobid from `TestPrEnv-CW` to something else, you will also need to
-  # add a repository variable of CW_JOBID with a value of the new jobid.
-  # Explanation: the jobid below is part of the status check name that is used in preparing the repository for an
-  # auto-accepting PR. If you change the jobid below, but do not add the repo variable with this value, then the repository
-  # will be configured to require a status check that does not exist and it will be unable to accept the PR. In addition,
-  # you will be blocked from accepting the PR until you remove it from the repo's settings
-  TestPrEnv-CW:
-    needs: reset-test-state
-    uses: platformsh-templates/ghrw-templates/.github/workflows/testprenvironment.yaml@main
-    secrets: inherit
+  TestPrEnvironment:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }}
+    steps:
+      - name: 'Get Project ID'
+        id: 'get-proj-id'
+        uses: platformsh/gha-retrieve-projectid@main
+        with:
+          github_token: ${{ secrets.UPDATE_GITHUB_TOKEN }}
+
+      - name: 'Get Production URL'
+        id: 'get-prod-url'
+        uses: platformsh/gha-retrieve-production-url@main
+        with:
+          platformsh_token: ${{ secrets.PSH_CLI_TOKEN }}
+          project_id: ${{ steps.get-proj-id.outputs.project_id }}
+
+      - name: 'Run Pull Request Tests'
+        id: get-target-url
+        uses: platformsh/gha-template-pr-tests@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          baseline-url: ${{ steps.get-prod-url.outputs.production_url }}
+          delay-start: ${{ vars.DELAY_START }}
+          baseline-header-response: $( [ -n "${{ vars.HEADER_RESPONSE }}" ] && echo "${{ vars.HEADER_RESPONSE }}" || echo 200 )
+          test-header-response: $( [ -n "${{ vars.HEADER_RESPONSE }}" ] && echo "${{ vars.HEADER_RESPONSE }}" || echo 200 )
+          pr-timeout: $( [ -n "${{ vars.PR_ENV_TIMEOUT }}" ] && echo "${{ vars.PR_ENV_TIMEOUT }}" || echo 300 )
 
   # This one will eventually be migrated into the above reusable workflow
   runE2Etests:
@@ -64,8 +71,7 @@ jobs:
     name: Runs E2E testing on PR Environment
     needs: TestPrEnv-CW
     env:
-      PLATFORMSH_CLI_TOKEN: ${{ secrets.TEMPLATES_CLI_TOKEN }}
-      PLATFORM_PROJECT: ${{ vars.PROJECT_ID }}
+      PLATFORMSH_CLI_TOKEN: ${{ secrets.PSH_CLI_TOKEN }}
       PLATFORM_BRANCH: "pr-${{ github.event.pull_request.number }}"
     steps:
       - name: Get Project ID
