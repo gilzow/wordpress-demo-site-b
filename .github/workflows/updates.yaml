@@ -30,6 +30,11 @@ jobs:
           git remote add upstream https://github.com/gilzow/wp-upstream-demo.git
           # pull from the remote
           git pull upstream main
+      - id: set-git-config-user
+        run: |
+          git config --global user.email "bot.user@company.com"
+          git config --global user.name "Auto Updater Bot"
+
       # ideally there's a step here to read the appropriate files from psh/upsun config to determine php version
       - id: setup-php
         uses: shivammathur/setup-php@v2
