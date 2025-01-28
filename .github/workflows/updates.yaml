@@ -27,7 +27,7 @@ jobs:
       - id: refresh-from-upstream
         run: |
           # add the remote
-          git remote add upstream git@github.com:gilzow/wp-upstream-demo.git
+          git remote add upstream https://github.com/gilzow/wp-upstream-demo.git
           # pull from the remote
           git pull upstream main
       # ideally there's a step here to read the appropriate files from psh/upsun config to determine php version
