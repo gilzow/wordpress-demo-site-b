@@ -26,6 +26,7 @@ jobs:
           # make sure we're up-to-date with our own main
           git pull origin main
       - id: refresh-from-upstream
+        if: ${{ github.event.repository.name != 'wp-upstream-demo' }}
         run: |
           # add the remote
           git remote add upstream https://github.com/gilzow/wp-upstream-demo.git
@@ -43,6 +44,7 @@ jobs:
           php-version: '8.1'
           tools: composer
       - id: run-dependency-update
+        if: ${{ github.event.repository.name != 'wp-upstream-demo' }}
         run: |
           # run the updates - this could potentially be
           composer update
