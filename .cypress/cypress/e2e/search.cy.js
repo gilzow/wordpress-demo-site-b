@@ -7,7 +7,7 @@ describe("Search", ()=>{
 		it("Visits a random page",()=>{
 			cy.request({url: '/foobar', failOnStatusCode: false}).its('status').should('equal', 404)
 			cy.visit('/foobar', {failOnStatusCode: false})
-			cy.get('h1[class="page-title"]').should("exist").contains("Nothing here")
+			cy.find('h1').contains("404").should("exist")
 		})
 
 		it("Runs search from 404", ()=>{
@@ -19,7 +19,7 @@ describe("Search", ()=>{
 			})
 
 			cy.get('main').as('main')
-			cy.get('@main').find('h1').contains('Results for').should('exist')
+			cy.get('@main').find('h1').contains('results for').should('exist')
 			cy.get('@main').find('h2').contains('Sample Page').should('exist')
 
 
