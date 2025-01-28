@@ -69,7 +69,7 @@ jobs:
   runE2Etests:
     runs-on: ubuntu-latest
     name: Runs E2E testing on PR Environment
-    needs: TestPrEnv-CW
+    needs: TestPrEnvironment
     env:
       PLATFORMSH_CLI_TOKEN: ${{ secrets.PSH_CLI_TOKEN }}
       PLATFORM_BRANCH: "pr-${{ github.event.pull_request.number }}"
