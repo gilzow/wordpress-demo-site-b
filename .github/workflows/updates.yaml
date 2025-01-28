@@ -1,0 +1,51 @@
+name: Repo playing
+on:
+  workflow_dispatch:
+
+jobs:
+  adjust-repo:
+    runs-on: ubuntu-latest
+    name: check out and an examine the repo
+    steps:
+      - uses: actions/checkout@v4
+        id: checkout-repo
+        with:
+          fetch-depth: 0
+      - id: checkout-update
+        run: |
+          git fetch --all
+          update=$(git ls-remote --heads origin update)
+          if [ -z "${update}" ]; then
+            git switch update 2>/dev/null || git switch -c update
+          else
+            git switch --track origin/update
+          fi
+      - id: refresh-from-local-main
+        run: |
+          # make sure we're up-to-date with our own main
+          git pull origin main
+      - id: refresh-from-upstream
+        run: |
+          # add the remote
+          git remote add upstream git@github.com:gilzow/wp-upstream-demo.git
+          # pull from the remote
+          git pull upstream main
+      # ideally there's a step here to read the appropriate files from psh/upsun config to determine php version
+      - id: setup-php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+      - id: run-dependency-update
+        run: |
+          # run the updates - this could potentially be
+          composer update
+          #did we have updates?
+          if [ -n "$(git status --porcelain=1 | grep composer.lock)" ]; then
+            echo "dependencies updated."
+            git add composer.lock
+            git commit -m "composer dependencies updated."
+          fi
+      - id: push-changes
+        run: |
+          git push -u origin update
