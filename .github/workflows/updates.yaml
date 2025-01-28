@@ -1,11 +1,11 @@
-name: Repo playing
+name: Auto updates dependencies and from upstream
 on:
   workflow_dispatch:
 
 jobs:
-  adjust-repo:
+  updates-repo:
     runs-on: ubuntu-latest
-    name: check out and an examine the repo
+    name: Updates dependencies and resyncs with upstream
     steps:
       - uses: actions/checkout@v4
         id: checkout-repo
