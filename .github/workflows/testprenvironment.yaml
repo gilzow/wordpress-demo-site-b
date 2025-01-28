@@ -78,7 +78,7 @@ jobs:
         id: get-proj-id
         uses: platformsh/gha-retrieve-projectid@main
         with:
-          github_token: ${{ secrets.TEMPLATES_GITHUB_TOKEN }}
+          github_token: ${{ secrets.UPDATE_GITHUB_TOKEN }}
       - name: Sets up the Platformsh CLI
         run: curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
         shell: bash
@@ -86,7 +86,7 @@ jobs:
         id: get-target-url
         uses: platformsh/gha-retrieve-psh-prenv-url@main
         with:
-          github-token: ${{ secrets.TEMPLATES_GITHUB_TOKEN }}
+          github-token: ${{ secrets.UPDATE_GITHUB_TOKEN }}
       - uses: actions/checkout@v4
         name: Check out the repository
       - uses: cypress-io/github-action@v6
